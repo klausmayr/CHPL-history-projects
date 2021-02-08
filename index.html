@@ -42,6 +42,22 @@
         var image = L.imageOverlay('https://cdn.cp.adobe.io/content/2/dcx/fcfd47e2-d3fe-4d52-a60a-e8b701ebf873/rendition/preview.jpg/version/0/format/jpg/dimension/width/size/1200', bounds).addTo(map);
         
         map.fitBounds(bounds);
+            
+        var info = L.control();
+            
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+            
+                info.update = function (props) {
+            this._div.innerHTML = (props ?
+                '<b>' + props.name + '</b><br />
+                : 'Hover over women');
+        };
+
+        info.addTo(map);
 
         function style(feature) {
             return {
