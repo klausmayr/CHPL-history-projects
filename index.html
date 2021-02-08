@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+            #map {
+                width: 922.56px;
+                height: 206.4px;
+            }
+
+        </style>
+    
+        
+    </head>
+<body>
+    <body>
+
+     
+        <div id="map"></div>
+
+        <script type="text/javascript" src="/Users/klausmayr/Downloads/still-singing.js"></script>
+
+        <script>
+
+        var map = L.map('map', {
+            crs: L.CRS.Simple
+            });
+    
+        var bounds = [[0,0], [206.4, 922.56]];
+        var image = L.imageOverlay('https://cdn.cp.adobe.io/content/2/dcx/fcfd47e2-d3fe-4d52-a60a-e8b701ebf873/rendition/preview.jpg/version/0/format/jpg/dimension/width/size/1200', bounds).addTo(map);
+        
+        map.fitBounds(bounds);
+
+        function style(feature) {
+            return {
+                weight: 1,
+                opacity: 1,
+                color: 'white',
+                fillOpacity: 0.8,
+                fillColor: 'grey'
+            };
+        }
+
+        function highlightFeature(e) {
+        var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: 'white',
+                dashArray: '2',
+                fillOpacity: 0
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+        }
+
+        function makePopup(e) {
+            var layer = e.target;
+            
+                layer.bindPopup()
+        }
+
+        var geojson;
+        
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+        }
+
+        var geojson;
+        geojson = L.geoJson(womanLayer);
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature, 
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+
+        geojson = L.geoJson(womanLayer, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+        geojson.eachLayer(function (layer) {
+            layer.bindPopup(layer.feature.properties.name);
+        });
+
+        map.fitBounds(geojson.getBounds());
+        
+
+        </script>
+        
+
+        </body>
+
+    </script>
+
+</body>
+
+
+</html>
