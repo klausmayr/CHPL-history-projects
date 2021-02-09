@@ -56,21 +56,6 @@
         
         map.fitBounds(bounds);
             
-        var info = L.control();
-            
-        info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-            this.update();
-            return this._div;
-        };
-            
-                info.update = function (props) {
-            this._div.innerHTML = (props ?
-                '<b>' + props.name + '</b><br />
-                : 'Hover over women');
-        };
-
-        info.addTo(map);
 
         function style(feature) {
             return {
